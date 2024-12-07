@@ -1,0 +1,90 @@
+
+1. loadCsv(filename):
+   - Purpose: Loads a CSV file and converts its contents into a list of lists, with each inner list representing a row of data.
+   - Process: 
+     - Reads the file using Python's csv.reader.
+     - Converts each row into a list of floats.
+   - Usage: Provides the foundational dataset for subsequent processing.
+
+2. splitDataset(dataset, splitRatio):
+   - Purpose: Splits the dataset into training and testing sets based on a specified ratio.
+   - Process: 
+     - Calculates the size of the training set.
+     - Randomly selects data points to populate the training set until it reaches the desired size.
+     - The remaining data points constitute the test set.
+   - Usage: Ensures that the model is trained on one subset of data and evaluated on another, promoting unbiased assessment.
+
+3. separateByClass(dataset):
+   - Purpose: Organizes the dataset into separate lists based on the class label.
+   - Process: 
+     - Iterates through the dataset, appending each data point to a list corresponding to its class label.
+   - Usage: Facilitates class-specific analyses, such as computing mean and standard deviation for each class.
+
+4. mean(numbers):
+   - Purpose: Calculates the average of a list of numbers.
+   - Process: 
+     - Sums the numbers and divides by the count of elements.
+   - Usage: Utilized in data summarization to represent central tendency.
+
+5. stdev(numbers):
+   - Purpose: Computes the standard deviation of a list of numbers, measuring the amount of variation or dispersion.
+   - Process: 
+     - Calculates the variance by averaging the squared differences between each number and the mean.
+     - Returns the square root of the variance.
+   - Usage: Provides insights into the spread of data, crucial for probabilistic calculations in the classifier.
+
+6. summarize(dataset):
+   - Purpose: Generates a summary of the dataset by computing the mean and standard deviation for each attribute.
+   - Process: 
+     - Applies the mean and stdev functions to each attribute (excluding the class label) using zip(*dataset).
+   - Usage: Creates a concise representation of the dataset's distribution, aiding in probability calculations.
+
+7. summarizeByClass(dataset):
+   - Purpose: Provides class-specific summaries by computing the mean and standard deviation for each attribute within each class.
+   - Process: 
+     - Separates the dataset by class using separateByClass.
+     - Computes summaries for each class's dataset.
+   - Usage: Essential for the Naive Bayes classifier, which relies on class-specific probability distributions.
+
+8. calculateProbability(x, mean, stdev):
+   - Purpose: Calculates the Gaussian (normal) probability of a data point x given the mean and standard deviation of its distribution.
+   - Process: 
+     - Uses the Gaussian probability density function (PDF) formula:
+       P(x) = (1 / sqrt(2 * pi) * stdev) * exp(-(x - mean)^2 / (2 * stdev^2)).
+   - Usage: Computes the likelihood of a data point belonging to a particular class, a core component of the Naive Bayes algorithm.
+
+9. calculateClassProbabilities(summaries, inputVector):
+   - Purpose: Determines the probability of an input vector belonging to each class by combining individual attribute probabilities.
+   - Process: 
+     - Initializes a dictionary to store probabilities for each class.
+     - For each class, multiplies the probabilities of each attribute (computed using calculateProbability) to obtain the joint probability.
+   - Usage: Enables the classifier to predict the most probable class for a given input.
+
+10. predict(summaries, inputVector):
+    - Purpose: Predicts the class label for a given input vector based on the calculated class probabilities.
+    - Process: 
+      - Computes class probabilities using calculateClassProbabilities.
+      - Identifies the class with the highest probability.
+    - Usage: Provides the final classification decision for an input data point.
+
+11. getPredictions(summaries, testSet):
+    - Purpose: Generates predictions for an entire test set.
+    - Process: 
+      - Iterates through the test set, applying the predict function to each data point.
+    - Usage: Evaluates the classifier's performance across a dataset.
+
+12. getAccuracy(testSet, predictions):
+    - Purpose: Calculates the accuracy of the classifier by comparing predictions to the actual class labels.
+    - Process: 
+      - Counts the number of correct predictions.
+      - Divides by the total number of data points to obtain the accuracy percentage.
+    - Usage: Assesses the effectiveness of the classifier, providing a metric for performance evaluation.
+
+13. main():
+    - Purpose: Serves as the entry point for the program, orchestrating the loading of data, splitting of the dataset, model training, prediction, and evaluation.
+    - Process: 
+      - Loads the CSV file.
+      - Splits the dataset into training and test sets.
+      - Trains the Naive Bayes model by summarizing the training set by class.
+      - Makes predictions on the test set.
+      - Computes and prints the accuracy of the predictions.
